@@ -1,0 +1,25 @@
+services:
+  web-server:
+    build: .
+    container_name: php
+    depends_on:
+      - db-server
+    volumes:
+      - ./www:/var/www/html/
+    ports:
+      - 2255:80
+
+  db-server:
+    image: mysql
+    restart: always
+    container_name: db
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d/
+    environment:
+      MYSQL_DATABASE: sana
+      MYSQL_ROOT_PASSWORD: 123
+    ports:
+      - 3453:3306
+volumes:
+  mysql-data:
